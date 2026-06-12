@@ -46,17 +46,7 @@ float speed, spin;
 const float rotation = .8;
 double angle;
 float moteurClamp = 0.0;
-const int angle_open_4 = 140;
-const int angle_closed_4 = 10;
 
-const int angle_open_1 = 140;
-const int angle_closed_1 = 20;
-
-const int angle_open_2 = 115;
-const int angle_closed_2 = 10;
-
-const int angle_open_3 = 140;
-const int angle_closed_3 = 40;
 
 bool btt1_pressed = false;
 bool btt2_pressed = false;
@@ -168,31 +158,41 @@ void loop() {
     stepper_4.spin(moteur4_target * 8.0);
 
     if (myRemote.Button2 && !btt2_pressed) {  //Rising edge
-      if (servo1_closed)
-        servo1.write(angle_open_1);
-      else
-        servo1.write(angle_closed_1);
+      if (servo1_closed) {
+        // utilisation selon le nouveau réglement
+      }
+        
+      else {
+          // utilisation selon le nouveau réglement
+        }
       servo1_closed = !servo1_closed;
     }
     if (myRemote.Button1 && !btt1_pressed) {  //Rising edge
-      if (servo2_closed)
-        servo2.write(angle_closed_2);
-      else
-        servo2.write(angle_open_2);
+      if (servo2_closed) {
+          // utilisation selon le nouveau réglement
+        }
+      else{
+          // utilisation selon le nouveau réglement
+      }
+      
       servo2_closed = !servo2_closed;
     }
     if (myRemote.Button4 && !btt4_pressed) {  //Rising edge
-      if (servo3_closed)
-        servo3.write(angle_open_3);
-      else
-        servo3.write(angle_closed_3);
+      if (servo3_closed) {
+                  // utilisation selon le nouveau réglement
+      }
+      else {
+                  // utilisation selon le nouveau réglement
+      }
       servo3_closed = !servo3_closed;
     }
     if (myRemote.Button3 && !btt3_pressed) {  //Rising edge
-      if (servo4_closed)
-        servo4.write(angle_closed_4);
-      else
-        servo4.write(angle_open_4);
+      if (servo4_closed) {
+                    // utilisation selon le nouveau réglement
+      }
+      else {
+                  // utilisation selon le nouveau réglement
+      }
       servo4_closed = !servo4_closed;
     }
     btt1_pressed = myRemote.Button1;
@@ -209,20 +209,20 @@ void loop() {
   }
 }
 void ouvrir_pinces() {
-  servo1.write(angle_open_1);
-  servo2.write(angle_closed_2);
-  servo3.write(angle_open_3);
-  servo4.write(angle_closed_4);
+  //servo1.write(angle_open_1);
+  //servo2.write(angle_closed_2);
+  //servo3.write(angle_open_3);
+  //servo4.write(angle_closed_4);
   servo1_closed = false;
   servo2_closed = false;
   servo3_closed = false;
   servo4_closed = false;
 }
 void fermer_pinces() {
-  servo1.write(angle_closed_1);
-  servo2.write(angle_open_2);
-  servo3.write(angle_closed_3);
-  servo4.write(angle_open_4);
+  //servo1.write(angle_closed_1);
+  //servo2.write(angle_open_2);
+  //servo3.write(angle_closed_3);
+  //servo4.write(angle_open_4);
   servo1_closed = true;
   servo2_closed = true;
   servo3_closed = true;

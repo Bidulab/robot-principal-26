@@ -94,9 +94,3 @@ Ce programme contrôle le robot équipé de moteurs pas à pas et servo-moteurs.
 - **Joysticks** :
   - `Joystick 1` : contrôle la direction et la vitesse.
   - `Joystick 2` : contrôle la rotation (pivot sur place).
-- **Boutons** :
-  - `Button1` : Monter ou descendre l'attrape noisette 1
-  - `Button2` : Monter ou descendre l'attrape noisette 2
-  - `Button3` : Monter ou descendre l'attrape noisette 3
-  - `Button4` : Monter ou descendre l'attrape noisette 4
-
