@@ -8,8 +8,6 @@ Ce teste permet d'afficher dans la console ce que le robot (ou n'import quel ard
 
 #include "Remote.h"
 #include <TMC2209.h>
-#include "MyStepper.h"
-#include <TimerThree.h>
 
 #define LED 13
 
@@ -35,15 +33,6 @@ Ce teste permet d'afficher dans la console ce que le robot (ou n'import quel ard
 
 
 Remote myRemote(9600, 30);
-
-MyStepper stepper_2;
-MyStepper stepper_3;
-MyStepper stepper_4;
-
-Servo servo1;
-Servo servo2;
-Servo servo3;
-Servo servo4;
 
 float speed, spin;
 const float rotation = .8;
@@ -73,11 +62,6 @@ void setup() {
 
   pinMode(LED, OUTPUT);
 
-  servo1.attach(6);  //68
-  servo2.attach(7);  //67
-  servo3.attach(44);
-  servo4.attach(46);
-
   delay(500);
 
 
@@ -85,9 +69,6 @@ void setup() {
 
   // Give time to the remote to start
   delay(200);
-
-  Timer3.initialize(2000);
-  Timer3.attachInterrupt(stepper_it);
 }
 
 void loop() {
@@ -193,20 +174,12 @@ void loop() {
   }
 }
 void ouvrir_pinces() {
-  //servo1.write(angle_open_1);
-  //servo2.write(angle_closed_2);
-  //servo3.write(angle_open_3);
-  //servo4.write(angle_closed_4);
   servo1_closed = false;
   servo2_closed = false;
   servo3_closed = false;
   servo4_closed = false;
 }
 void fermer_pinces() {
-  //servo1.write(angle_closed_1);
-  //servo2.write(angle_open_2);
-  //servo3.write(angle_closed_3);
-  //servo4.write(angle_open_4);
   servo1_closed = true;
   servo2_closed = true;
   servo3_closed = true;
