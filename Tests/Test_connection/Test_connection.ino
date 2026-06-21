@@ -6,6 +6,8 @@ Ce teste permet d'afficher dans la console ce que le robot (ou n'import quel ard
 #include <Servo.h>
 #include <Arduino.h>
 
+
+
 #include "Remote.h"
 #include <TMC2209.h>
 
@@ -18,7 +20,6 @@ Ce teste permet d'afficher dans la console ce que le robot (ou n'import quel ard
 #define MAIN_DRIVERS_EN_PIN 54    // A0
 #define CLAMP_DRIVER_EN_PIN 55    // A1
 #define CLAMP_DRIVER_DIAG_PIN 56  // A2
-
 
 #define MAIN_DRIVER_1_STEP_PIN 9
 #define MAIN_DRIVER_1_DIR_PIN 8
@@ -53,7 +54,11 @@ bool servo3_closed = false;
 bool servo4_closed = false;
 
 
+
+
 void setup() {
+  Serial.begin(9600);
+
   pinMode(MAIN_DRIVERS_EN_PIN, OUTPUT);
   pinMode(CLAMP_DRIVER_EN_PIN, OUTPUT);
   pinMode(CLAMP_DRIVER_DIAG_PIN, INPUT);
@@ -72,6 +77,10 @@ void setup() {
 }
 
 void loop() {
+
+
+  
+
   if (myRemote.updateValues()) {
 
     float xVal = (float)myRemote.Joystick1_X;
