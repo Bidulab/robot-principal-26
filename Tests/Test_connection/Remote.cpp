@@ -2,7 +2,7 @@
 #include "Arduino.h"
 #include "Remote.h"
 
-#define REMOTE_SERIAL Serial3
+#define REMOTE_SERIAL Serial
 
 Remote::Remote(unsigned long baud, short int initCounter) {
   REMOTE_SERIAL.begin(baud);
