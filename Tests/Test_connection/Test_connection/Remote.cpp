@@ -6,10 +6,8 @@
 
 //#define HC12 HC12
 SoftwareSerial HC12(2, 3);
-
 Remote::Remote(unsigned long baud, short int initCounter) {
   HC12.begin(baud);
-  delay(500);
   counter = initCounter;
 }
 static unsigned long i = 0;
@@ -36,7 +34,7 @@ bool Remote::updateValues() {
 
   if (HC12.available() < 13) {
     //i++;
-    if (millis() - lastSentTime > 500){//(i >= 40000) {
+    if (millis() - lastSentTime > 100){//(i >= 40000) {
       waiting = false;
       i = 0;
     }

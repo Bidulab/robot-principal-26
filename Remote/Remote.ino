@@ -60,6 +60,20 @@ void setup() {
 
 void loop() {
 
+    /*if (HC12.available() > 0) {
+    char c = HC12.read();
+    Serial.print("Received: ");
+    Serial.println(c, HEX);  // Affiche le byte reçu en hexadécimal
+  }*/
+
+  // Envoie un 'T' toutes les 2 secondes pour tester
+  static unsigned long lastSend = 0;
+  if (millis() - lastSend > 2000) {
+    HC12.write('T');
+    Serial.println("Sent T");
+    lastSend = millis();
+  }
+
   Serial.print("HC12 available: ");
   Serial.println(HC12.available());
 

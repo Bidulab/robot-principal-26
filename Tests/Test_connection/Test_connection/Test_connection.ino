@@ -57,7 +57,9 @@ bool servo4_closed = false;
 
 
 void setup() {
+  delay(1000);
   Serial.begin(9600);
+  delay(500);
 
   pinMode(MAIN_DRIVERS_EN_PIN, OUTPUT);
   pinMode(CLAMP_DRIVER_EN_PIN, OUTPUT);
@@ -77,8 +79,6 @@ void setup() {
 }
 
 void loop() {
-
-
   
 
   if (myRemote.updateValues()) {
