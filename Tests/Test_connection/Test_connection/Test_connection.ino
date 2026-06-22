@@ -33,7 +33,8 @@ Ce teste permet d'afficher dans la console ce que le robot (ou n'import quel ard
 #define CLAMP_DRIVER_DIR_PIN 12
 
 
-Remote myRemote(9600, 30);
+//Remote myRemote(9600, 30);
+Remote* myRemote;
 
 float speed, spin;
 const float rotation = .8;
@@ -59,6 +60,7 @@ bool servo4_closed = false;
 void setup() {
   delay(1000);
   Serial.begin(9600);
+  myRemote = new Remote(9600, 30);
   delay(500);
 
   pinMode(MAIN_DRIVERS_EN_PIN, OUTPUT);
@@ -81,11 +83,11 @@ void setup() {
 void loop() {
   
 
-  if (myRemote.updateValues()) {
+  if (myRemote->updateValues()) {
 
-    float xVal = (float)myRemote.Joystick1_X;
-    float yVal = (float)myRemote.Joystick1_Y;
-    float aVal = (float)myRemote.Joystick2_X;
+    float xVal = (float)myRemote->Joystick1_X;
+    float yVal = (float)myRemote->Joystick1_Y;
+    float aVal = (float)myRemote->Joystick2_X;
 
     spin = aVal;
     if (abs(aVal) < 30)
@@ -131,7 +133,7 @@ void loop() {
       }
     }
 
-    if (myRemote.Button2 && !btt2_pressed) {  //Rising edge
+    if (myRemote->Button2 && !btt2_pressed) {  //Rising edge
       if (servo1_closed) {
         // utilisation selon le nouveau réglement
       }
@@ -141,7 +143,7 @@ void loop() {
         }
       servo1_closed = !servo1_closed;
     }
-    if (myRemote.Button1 && !btt1_pressed) {  //Rising edge
+    if (myRemote->Button1 && !btt1_pressed) {  //Rising edge
       if (servo2_closed) {
           // utilisation selon le nouveau réglement
         }
@@ -151,7 +153,7 @@ void loop() {
       
       servo2_closed = !servo2_closed;
     }
-    if (myRemote.Button4 && !btt4_pressed) {  //Rising edge
+    if (myRemote->Button4 && !btt4_pressed) {  //Rising edge
       if (servo3_closed) {
                   // utilisation selon le nouveau réglement
       }
@@ -160,7 +162,7 @@ void loop() {
       }
       servo3_closed = !servo3_closed;
     }
-    if (myRemote.Button3 && !btt3_pressed) {  //Rising edge
+    if (myRemote->Button3 && !btt3_pressed) {  //Rising edge
       if (servo4_closed) {
                     // utilisation selon le nouveau réglement
       }
@@ -169,17 +171,17 @@ void loop() {
       }
       servo4_closed = !servo4_closed;
     }
-    btt1_pressed = myRemote.Button1;
-    btt2_pressed = myRemote.Button2;
-    btt3_pressed = myRemote.Button3;
-    btt4_pressed = myRemote.Button4;
+    btt1_pressed = myRemote->Button1;
+    btt2_pressed = myRemote->Button2;
+    btt3_pressed = myRemote->Button3;
+    btt4_pressed = myRemote->Button4;
 
-    if (myRemote.Encoder_SW && !encoder_sw_pressed) {  //Rising edge
+    if (myRemote->Encoder_SW && !encoder_sw_pressed) {  //Rising edge
       ouvrir_pinces();
     }
-    encoder_sw_pressed = myRemote.Encoder_SW;
+    encoder_sw_pressed = myRemote->Encoder_SW;
 
-    digitalWrite(LED, myRemote.Button1 || myRemote.Button2 || myRemote.Button3 || myRemote.Button4 || myRemote.Joystick1_SW || myRemote.Joystick2_SW);
+    digitalWrite(LED, myRemote->Button1 || myRemote->Button2 || myRemote->Button3 || myRemote->Button4 || myRemote->Joystick1_SW || myRemote->Joystick2_SW);
   }
 }
 void ouvrir_pinces() {

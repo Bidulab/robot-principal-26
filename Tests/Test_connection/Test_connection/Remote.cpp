@@ -26,6 +26,8 @@ bool Remote::updateValues() {
     HC12.write('A');  // Send get message
 
     Serial.write("A");
+
+    Serial.println("Robot: Sent A");
     delay(10);
     waiting = true;
     i = 0;
@@ -34,7 +36,8 @@ bool Remote::updateValues() {
 
   if (HC12.available() < 13) {
     //i++;
-    if (millis() - lastSentTime > 100){//(i >= 40000) {
+    if (millis() - lastSentTime > 500){//(i >= 40000) {
+      Serial.println("Robot: Timeout!");
       waiting = false;
       i = 0;
     }
@@ -44,6 +47,7 @@ bool Remote::updateValues() {
 
   // read the incoming bytes
   HC12.readBytes(Mymessage, 13);
+  Serial.println("Robot: Got 13 bytes!");
 
   Joystick1_X = Mymessage[1];
   Joystick1_X = -2 * Joystick1_X + 255;
