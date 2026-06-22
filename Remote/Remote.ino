@@ -5,11 +5,11 @@
 #define JOYSTICK2_Y A2
 #define JOYSTICK2_X A3
 #define JOYSTICK1_SW 6 //2 !
-//#define JOYSTICK2_SW 3
+#define JOYSTICK2_SW 3
 
 #define R_ENCODER_SW  4
 #define R_ENCODER_DT  5
-//#define R_ENCODER_CLK 11 //6 !
+#define R_ENCODER_CLK 11 //6 !
 
 #define BUTTON1 7
 #define BUTTON2 8
@@ -18,7 +18,7 @@
 
 #define LED 13
 
-SoftwareSerial HC12(2, 3);
+SoftwareSerial HC12(1, 0);
 
 unsigned char myMessage[13]; //data
 
@@ -31,7 +31,7 @@ unsigned long lastMessage = 0;
 void setup() {
   HC12.begin(9600);
   delay(500);
-  Serial.begin(9600);
+  //Serial.begin(9600);
 
   pinMode(JOYSTICK1_X, INPUT);
   pinMode(JOYSTICK1_Y, INPUT);
@@ -42,20 +42,20 @@ void setup() {
   pinMode(BUTTON3, INPUT_PULLUP);
   pinMode(BUTTON4, INPUT_PULLUP);
   pinMode(JOYSTICK1_SW, INPUT_PULLUP);
-  //pinMode(JOYSTICK2_SW, INPUT_PULLUP);
+  pinMode(JOYSTICK2_SW, INPUT_PULLUP);
   pinMode(R_ENCODER_SW, INPUT_PULLUP);  // SW ENCODER
-  //pinMode(R_ENCODER_CLK, INPUT);
+  pinMode(R_ENCODER_CLK, INPUT);
   pinMode(R_ENCODER_DT, INPUT);
 
   pinMode(LED, OUTPUT);
 
   // état de A au setup
-  //dernierEtatA = digitalRead(R_ENCODER_CLK);
+  dernierEtatA = digitalRead(R_ENCODER_CLK);
   deltaEncoder = 0;
   // memorisation du temps pour eviter des erreurs de changements d'etat
   tempsA = millis();
   lastMessage = millis();
-  //attachInterrupt(digitalPinToInterrupt(R_ENCODER_CLK), changementA, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(R_ENCODER_CLK), changementA, CHANGE);
 }
 
 void loop() {
@@ -67,8 +67,8 @@ void loop() {
   }*/
 
   
-  Serial.print("HC12 available: ");
-  Serial.println(HC12.available());
+  //Serial.print("HC12 available: ");
+ // Serial.println(HC12.available());
 
   if (millis() > lastMessage + 200)
     digitalWrite(LED, (millis()%400) < 150);
@@ -92,7 +92,7 @@ void loop() {
       myMessage[7] = digitalRead(BUTTON3);
       myMessage[8] = digitalRead(BUTTON4);
       myMessage[9] = digitalRead(JOYSTICK1_SW);
-      myMessage[10] = 0;//digitalRead(JOYSTICK2_SW);
+      myMessage[10] = digitalRead(JOYSTICK2_SW);
       myMessage[11] = digitalRead(R_ENCODER_SW);
       myMessage[12] = 0x55;
       deltaEncoder = 0;
@@ -104,7 +104,7 @@ void loop() {
 }
 
 void changementA(){
-  //etatA = digitalRead(R_ENCODER_CLK);
+  etatA = digitalRead(R_ENCODER_CLK);
    
   // controle du temps pour eviter des erreurs 
   if( abs(millis() - tempsA) > 50 ){
@@ -119,5 +119,5 @@ void changementA(){
     tempsA = millis();
   } 
   // memorisation de l'état de A
-  //dernierEtatA = etatA ;
+  dernierEtatA = etatA ;
 }
