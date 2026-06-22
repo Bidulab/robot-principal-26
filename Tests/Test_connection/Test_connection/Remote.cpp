@@ -48,6 +48,8 @@ bool Remote::updateValues() {
   // read the incoming bytes
   HC12.readBytes(Mymessage, 13);
   Serial.println("Robot: Got 13 bytes!");
+  Serial.write(Mymessage, 13);
+  Serial.println();
 
   Joystick1_X = Mymessage[1];
   Joystick1_X = -2 * Joystick1_X + 255;
