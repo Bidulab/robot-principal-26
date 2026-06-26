@@ -2,27 +2,40 @@
 #include "Arduino.h"
 #include "Remote.h"
 
-#define REMOTE_SERIAL Serial3
+#include <SoftwareSerial.h>
 
+//#define HC12 HC12
+SoftwareSerial HC12(2, 3);    // a changer les pin : mettre des pin disponible (si possible mettre pin utiliser par Serial3)
 Remote::Remote(unsigned long baud, short int initCounter) {
-  REMOTE_SERIAL.begin(baud);
+  HC12.begin(baud);
   counter = initCounter;
 }
 static unsigned long i = 0;
 static bool waiting = false;
+
+static unsigned long lastSentTime = 0;
+
 // Returns true if valid
 bool Remote::updateValues() {
+      //Serial.write("Debut");
   if (!waiting) {
-    while (REMOTE_SERIAL.available() > 0)
-      REMOTE_SERIAL.read();
-    REMOTE_SERIAL.write('A');  // Send get message
+    while (HC12.available() > 0)
+      HC12.read();
+    HC12.write('A');  // Send get message
+
+    //Serial.write("A");
+
+    //Serial.println("Robot: Sent A");
+    delay(10);
     waiting = true;
     i = 0;
+    lastSentTime = millis();
   }
 
-  if (REMOTE_SERIAL.available() < 13) {
-    i++;
-    if (i >= 40000) {
+  if (HC12.available() < 13) {
+    //i++;
+    if (millis() - lastSentTime > 500){//(i >= 40000) {
+      //Serial.println("Robot: Timeout!");
       waiting = false;
       i = 0;
     }
@@ -31,7 +44,8 @@ bool Remote::updateValues() {
   waiting = false;
 
   // read the incoming bytes
-  REMOTE_SERIAL.readBytes(Mymessage, 13);
+  HC12.readBytes(Mymessage, 13);
+
 
   Joystick1_X = Mymessage[1];
   Joystick1_X = -2 * Joystick1_X + 255;
@@ -53,7 +67,10 @@ bool Remote::updateValues() {
 
   Encoder_SW = !Mymessage[11];
 
-  REMOTE_SERIAL.flush();
+  Serial.println("Joystick1_X : ");   // debug (a enlever si tout fonctionne)
+  Serial.println(Joystick1_X);
+
+  HC12.flush();
 
 
   return true;

@@ -6,7 +6,7 @@
 #define REMOTE_H
 
 #include "Arduino.h"
-#include "Remote.h"
+//#include "Remote.h"
 
 class Remote {
 public:
