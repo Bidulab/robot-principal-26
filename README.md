@@ -1,5 +1,5 @@
-# robot-principal-25
-Programmation du robot principal de la CDFR 2026 de l'équipe Bidulab.
+# robot-principal-26
+Programmation du robot principal de la CDFR 2026-2027 de l'équipe Bidulab.
 
 Vous trouverez les programmes Remote et Robot ainsi que des tests, pour être compilés pour Arduino Nano et Mega.
 
@@ -79,6 +79,8 @@ Le programme Arduino envoie des données uniquement lorsqu’il reçoit une comm
 ## Description
 
 Ce programme contrôle le robot équipé de moteurs pas à pas et servo-moteurs. Le robot est piloté à l'aide de la télécommande.
+
+La télécomande est connectée via des modules HC-12 : connection sans fil.
 
 ---
 
