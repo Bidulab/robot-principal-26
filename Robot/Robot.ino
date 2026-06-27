@@ -72,7 +72,7 @@ void stepper_it() {
 
 void setup() {
   delay(1000);
-  Serial.begin(9600);
+  //Serial.begin(9600);
   myRemote = new Remote(9600, 30);
   delay(500);
 
@@ -105,7 +105,7 @@ void setup() {
   // Give time to the remote to start
   delay(200);
 
-  Timer3.initialize(20000);
+  Timer3.initialize(2000);
   Timer3.attachInterrupt(stepper_it);
 }
 

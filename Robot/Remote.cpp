@@ -81,8 +81,8 @@ bool Remote::updateValues() {
 
   Encoder_SW = !Mymessage[11];
 
-  Serial.println("Joystick1_X : ");   // debug (a enlever si tout fonctionne)
-  Serial.println(Joystick1_X);
+  /*Serial.println("Joystick1_X : ");   // debug (a enlever si tout fonctionne)
+  Serial.println(Joystick1_X);*/
 
   HC12.flush();
 
