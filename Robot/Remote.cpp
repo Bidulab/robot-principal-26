@@ -5,9 +5,16 @@
 #include <SoftwareSerial.h>
 
 //#define HC12 HC12
-SoftwareSerial HC12(2, 3);    // a changer les pin : mettre des pin disponible (si possible mettre pin utiliser par Serial3)
+#define RX_HC12 13
+#define TX_HC12 12
+
+//SoftwareSerial HC12(TX_HC12, RX_HC12);
+
+#define HC12 Serial3
+
 Remote::Remote(unsigned long baud, short int initCounter) {
-  HC12.begin(baud);
+  //HC12.begin(baud);
+  HC12.begin(9600);
   counter = initCounter;
 }
 static unsigned long i = 0;
@@ -18,10 +25,17 @@ static unsigned long lastSentTime = 0;
 // Returns true if valid
 bool Remote::updateValues() {
       //Serial.write("Debut");
+
   if (!waiting) {
+    //noInterrupts();
+
     while (HC12.available() > 0)
       HC12.read();
+    
+    //interrupts();
+
     HC12.write('A');  // Send get message
+
 
     //Serial.write("A");
 
