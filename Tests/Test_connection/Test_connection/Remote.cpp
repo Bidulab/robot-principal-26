@@ -5,16 +5,9 @@
 #include <SoftwareSerial.h>
 
 //#define HC12 HC12
-#define RX_HC12 13
-#define TX_HC12 12
-
-//SoftwareSerial HC12(TX_HC12, RX_HC12);
-
-#define HC12 Serial3
-
+SoftwareSerial HC12(2, 3);
 Remote::Remote(unsigned long baud, short int initCounter) {
-  //HC12.begin(baud);
-  HC12.begin(9600);
+  HC12.begin(baud);
   counter = initCounter;
 }
 static unsigned long i = 0;
@@ -22,20 +15,15 @@ static bool waiting = false;
 
 static unsigned long lastSentTime = 0;
 
+
+
 // Returns true if valid
 bool Remote::updateValues() {
       //Serial.write("Debut");
-
   if (!waiting) {
-    //noInterrupts();
-
     while (HC12.available() > 0)
       HC12.read();
-    
-    //interrupts();
-
     HC12.write('A');  // Send get message
-
 
     //Serial.write("A");
 
@@ -59,7 +47,9 @@ bool Remote::updateValues() {
 
   // read the incoming bytes
   HC12.readBytes(Mymessage, 13);
-
+  /*Serial.println("Robot: Got 13 bytes!");
+  Serial.write(Mymessage, 13);
+  Serial.println();*/
 
   Joystick1_X = Mymessage[1];
   Joystick1_X = -2 * Joystick1_X + 255;
@@ -81,8 +71,8 @@ bool Remote::updateValues() {
 
   Encoder_SW = !Mymessage[11];
 
-  /*Serial.println("Joystick1_X : ");   // debug (a enlever si tout fonctionne)
-  Serial.println(Joystick1_X);*/
+  Serial.println("Joystick1_X : ");
+  Serial.println(Joystick1_X);
 
   HC12.flush();
 

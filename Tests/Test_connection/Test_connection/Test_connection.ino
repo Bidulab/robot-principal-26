@@ -1,11 +1,15 @@
+/*
+Ce teste permet d'afficher dans la console ce que le robot (ou n'import quel arduino) reçoit de la télécommande.
+*/
+
 #include <math.h>
 #include <Servo.h>
 #include <Arduino.h>
 
+
+
 #include "Remote.h"
 #include <TMC2209.h>
-#include "MyStepper.h"
-#include <TimerThree.h>
 
 #define LED 13
 
@@ -17,30 +21,17 @@
 #define CLAMP_DRIVER_EN_PIN 55    // A1
 #define CLAMP_DRIVER_DIAG_PIN 56  // A2
 
-
 #define MAIN_DRIVER_1_STEP_PIN 9
 #define MAIN_DRIVER_1_DIR_PIN 8
 #define MAIN_DRIVER_2_STEP_PIN 5
 #define MAIN_DRIVER_2_DIR_PIN 4
 #define MAIN_DRIVER_3_STEP_PIN 11
 #define MAIN_DRIVER_3_DIR_PIN 10
-#define MAIN_DRIVER_4_STEP_PIN 3
-#define MAIN_DRIVER_4_DIR_PIN 2
+//#define MAIN_DRIVER_4_STEP_PIN 3
+//#define MAIN_DRIVER_4_DIR_PIN 2
 #define CLAMP_DRIVER_STEP_PIN 13
 #define CLAMP_DRIVER_DIR_PIN 12
 
-
-//Remote myRemote(9600, 30);
-
-MyStepper stepper_1;
-MyStepper stepper_2;
-MyStepper stepper_3;
-MyStepper stepper_4;
-
-Servo servo1;
-Servo servo2;
-Servo servo3;
-Servo servo4;
 
 //Remote myRemote(9600, 30);
 Remote* myRemote;
@@ -63,16 +54,12 @@ bool servo2_closed = false;
 bool servo3_closed = false;
 bool servo4_closed = false;
 
-void stepper_it() {
-  stepper_1.loop();
-  stepper_2.loop();
-  stepper_3.loop();
-  stepper_4.loop();
-}
+
+
 
 void setup() {
   delay(1000);
-  //Serial.begin(9600);
+  Serial.begin(9600);
   myRemote = new Remote(9600, 30);
   delay(500);
 
@@ -84,29 +71,13 @@ void setup() {
 
   pinMode(LED, OUTPUT);
 
-  servo1.attach(6);  //68
-  servo2.attach(7);  //67
-  servo3.attach(44);
-  servo4.attach(46);
-
   delay(500);
 
-  stepper_1.begin(MAIN_DRIVER_1_STEP_PIN, MAIN_DRIVER_1_DIR_PIN);
-  stepper_2.begin(MAIN_DRIVER_2_STEP_PIN, MAIN_DRIVER_2_DIR_PIN);
-  stepper_3.begin(MAIN_DRIVER_3_STEP_PIN, MAIN_DRIVER_3_DIR_PIN);
-  stepper_4.begin(MAIN_DRIVER_4_STEP_PIN, MAIN_DRIVER_4_DIR_PIN);
-  stepper_1.spin(0.0);
-  stepper_2.spin(0.0);
-  stepper_3.spin(0.0);
-  stepper_4.spin(0.0);
 
   ouvrir_pinces();
 
   // Give time to the remote to start
   delay(200);
-
-  Timer3.initialize(2000);
-  Timer3.attachInterrupt(stepper_it);
 }
 
 void loop() {
@@ -162,11 +133,6 @@ void loop() {
       }
     }
 
-    stepper_1.spin(moteur1_target * 8.0);
-    stepper_2.spin(moteur2_target * 8.0);
-    stepper_3.spin(moteur3_target * 8.0);
-    stepper_4.spin(moteur4_target * 8.0);
-
     if (myRemote->Button2 && !btt2_pressed) {  //Rising edge
       if (servo1_closed) {
         // utilisation selon le nouveau réglement
@@ -219,20 +185,12 @@ void loop() {
   }
 }
 void ouvrir_pinces() {
-  //servo1.write(angle_open_1);
-  //servo2.write(angle_closed_2);
-  //servo3.write(angle_open_3);
-  //servo4.write(angle_closed_4);
   servo1_closed = false;
   servo2_closed = false;
   servo3_closed = false;
   servo4_closed = false;
 }
 void fermer_pinces() {
-  //servo1.write(angle_closed_1);
-  //servo2.write(angle_open_2);
-  //servo3.write(angle_closed_3);
-  //servo4.write(angle_open_4);
   servo1_closed = true;
   servo2_closed = true;
   servo3_closed = true;

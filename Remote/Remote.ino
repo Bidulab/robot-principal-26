@@ -1,3 +1,5 @@
+#include <SoftwareSerial.h>
+
 #define JOYSTICK1_Y A0
 #define JOYSTICK1_X A1
 #define JOYSTICK2_Y A2
@@ -7,7 +9,7 @@
 
 #define R_ENCODER_SW  4
 #define R_ENCODER_DT  5
-#define R_ENCODER_CLK 2 //6 !
+#define R_ENCODER_CLK 11 //6 !
 
 #define BUTTON1 7
 #define BUTTON2 8
@@ -15,6 +17,8 @@
 #define BUTTON4 10
 
 #define LED 13
+
+SoftwareSerial HC12(1, 0);
 
 unsigned char myMessage[13]; //data
 
@@ -25,7 +29,9 @@ unsigned long tempsA;
 unsigned long lastMessage = 0;
 
 void setup() {
-  Serial.begin(9600);
+  HC12.begin(9600);
+  delay(500);
+  //Serial.begin(9600);
 
   pinMode(JOYSTICK1_X, INPUT);
   pinMode(JOYSTICK1_Y, INPUT);
@@ -54,6 +60,16 @@ void setup() {
 
 void loop() {
 
+    /*if (HC12.available() > 0) {
+    char c = HC12.read();
+    Serial.print("Received: ");
+    Serial.println(c, HEX);  // Affiche le byte reçu en hexadécimal
+  }*/
+
+  
+  //Serial.print("HC12 available: ");
+ // Serial.println(HC12.available());
+
   if (millis() > lastMessage + 200)
     digitalWrite(LED, (millis()%400) < 150);
   else
@@ -61,9 +77,9 @@ void loop() {
 
   char val[1]; //Used to store the incomming message from robot
   val[0] = 0;
-  if (Serial.available() > 0)
+  if (HC12.available() > 0)
   {
-    Serial.readBytes(val, 1);
+    HC12.readBytes(val, 1);
     if (val[0] == 65)
     {
       myMessage[0] = 65;
@@ -81,7 +97,7 @@ void loop() {
       myMessage[12] = 0x55;
       deltaEncoder = 0;
 
-      Serial.write(myMessage,13); //Write the serial data
+      HC12.write(myMessage,13); //Write the serial data
       lastMessage = millis();  //Remember when was the last time you recieved a mess
     }
   }
@@ -93,12 +109,12 @@ void changementA(){
   // controle du temps pour eviter des erreurs 
   if( abs(millis() - tempsA) > 50 ){
     // Si B different de l'ancien état de A alors
-    if(digitalRead(R_ENCODER_DT) != dernierEtatA){
+    /*if(digitalRead(R_ENCODER_DT) != dernierEtatA){
       deltaEncoder--;
     }
     else{
       deltaEncoder++;
-    }
+    }*/
     // memorisation du temps pour A
     tempsA = millis();
   } 
