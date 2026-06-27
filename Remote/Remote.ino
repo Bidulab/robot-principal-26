@@ -18,7 +18,9 @@
 
 #define LED 13
 
-SoftwareSerial HC12(1, 0);
+#define HC12 Serial
+
+//SoftwareSerial HC12(1, 0);
 
 unsigned char myMessage[13]; //data
 
