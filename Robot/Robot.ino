@@ -105,7 +105,7 @@ void setup() {
   // Give time to the remote to start
   delay(200);
 
-  Timer3.initialize(2000);
+  Timer3.initialize(20000);
   Timer3.attachInterrupt(stepper_it);
 }
 

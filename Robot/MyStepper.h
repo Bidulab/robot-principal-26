@@ -42,11 +42,13 @@ public:
 
   void loop() {
     if (!en) return;
+    Serial.print("A");
     while (lastStepTime + stepInterval <= micros()) {
       digitalWrite(stepPin, HIGH);
       lastStepTime += stepInterval;
       digitalWrite(stepPin, LOW);
     }
+    Serial.print("B");
   }
 };
 
