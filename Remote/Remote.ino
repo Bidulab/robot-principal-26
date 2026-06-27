@@ -20,8 +20,6 @@
 
 #define HC12 Serial
 
-//SoftwareSerial HC12(1, 0);
-
 unsigned char myMessage[13]; //data
 
 signed char deltaEncoder = 0;
@@ -33,7 +31,6 @@ unsigned long lastMessage = 0;
 void setup() {
   HC12.begin(9600);
   delay(500);
-  //Serial.begin(9600);
 
   pinMode(JOYSTICK1_X, INPUT);
   pinMode(JOYSTICK1_Y, INPUT);
@@ -61,17 +58,6 @@ void setup() {
 }
 
 void loop() {
-
-    /*if (HC12.available() > 0) {
-    char c = HC12.read();
-    Serial.print("Received: ");
-    Serial.println(c, HEX);  // Affiche le byte reçu en hexadécimal
-  }*/
-
-  
-  //Serial.print("HC12 available: ");
- // Serial.println(HC12.available());
-
   if (millis() > lastMessage + 200)
     digitalWrite(LED, (millis()%400) < 150);
   else
@@ -108,18 +94,10 @@ void loop() {
 void changementA(){
   etatA = digitalRead(R_ENCODER_CLK);
    
-  // controle du temps pour eviter des erreurs 
   if( abs(millis() - tempsA) > 50 ){
-    // Si B different de l'ancien état de A alors
-    /*if(digitalRead(R_ENCODER_DT) != dernierEtatA){
-      deltaEncoder--;
-    }
-    else{
-      deltaEncoder++;
-    }*/
     // memorisation du temps pour A
     tempsA = millis();
-  } 
-  // memorisation de l'état de A
+  }
+
   dernierEtatA = etatA ;
 }
