@@ -4,17 +4,10 @@
 
 #include <SoftwareSerial.h>
 
-//#define HC12 HC12
-#define RX_HC12 13
-#define TX_HC12 12
-
-//SoftwareSerial HC12(TX_HC12, RX_HC12);
-
 #define HC12 Serial3
 
 Remote::Remote(unsigned long baud, short int initCounter) {
-  //HC12.begin(baud);
-  HC12.begin(9600);
+  HC12.begin(9600); // utiliser baud ?
   counter = initCounter;
 }
 static unsigned long i = 0;
@@ -24,22 +17,12 @@ static unsigned long lastSentTime = 0;
 
 // Returns true if valid
 bool Remote::updateValues() {
-      //Serial.write("Debut");
-
   if (!waiting) {
-    //noInterrupts();
-
     while (HC12.available() > 0)
       HC12.read();
-    
-    //interrupts();
 
     HC12.write('A');  // Send get message
 
-
-    //Serial.write("A");
-
-    //Serial.println("Robot: Sent A");
     delay(10);
     waiting = true;
     i = 0;
@@ -47,9 +30,7 @@ bool Remote::updateValues() {
   }
 
   if (HC12.available() < 13) {
-    //i++;
-    if (millis() - lastSentTime > 500){//(i >= 40000) {
-      //Serial.println("Robot: Timeout!");
+    if (millis() - lastSentTime > 500){
       waiting = false;
       i = 0;
     }
@@ -81,11 +62,7 @@ bool Remote::updateValues() {
 
   Encoder_SW = !Mymessage[11];
 
-  /*Serial.println("Joystick1_X : ");   // debug (a enlever si tout fonctionne)
-  Serial.println(Joystick1_X);*/
-
   HC12.flush();
-
 
   return true;
 }

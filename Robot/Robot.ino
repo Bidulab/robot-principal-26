@@ -29,9 +29,6 @@
 #define CLAMP_DRIVER_STEP_PIN 13
 #define CLAMP_DRIVER_DIR_PIN 12
 
-
-//Remote myRemote(9600, 30);
-
 MyStepper stepper_1;
 MyStepper stepper_2;
 MyStepper stepper_3;
@@ -42,14 +39,12 @@ Servo servo2;
 Servo servo3;
 Servo servo4;
 
-//Remote myRemote(9600, 30);
 Remote* myRemote;
 
 float speed, spin;
 const float rotation = .8;
 double angle;
 float moteurClamp = 0.0;
-
 
 bool btt1_pressed = false;
 bool btt2_pressed = false;
@@ -72,7 +67,7 @@ void stepper_it() {
 
 void setup() {
   delay(1000);
-  //Serial.begin(9600);
+
   myRemote = new Remote(9600, 30);
   delay(500);
 
