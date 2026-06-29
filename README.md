@@ -74,6 +74,22 @@ Le programme Arduino envoie des données uniquement lorsqu’il reçoit une comm
 - La LED reste allumée lorsque les messages valides sont reçus régulièrement.
 
 
+### Problème de connection
+
+En cas de problème de connection avec HC-12 (même si cela est peu probable), il est possible d'utiliser le câble USB pour la connection (comme dans les anciennes versions).
+
+Le protocole de communication fonctionne sur HC-12 et sur USB : pas besoin de changer le code.
+
+#### Connection USB
+
+Pour cela, dans la télécomande :
+- débrancher le HC-12
+- mettre les jumpers entre les RX TX de nano et RX TX de l'USB (même emplacement où était connecter le HC-12)
+
+Dans le robot :
+- débrancher le HC-12
+- mettre les connection utiliser par le HC-12 sur le port USB.
+
 # Programme Robot
 
 ## Description
